@@ -1,0 +1,261 @@
+@import '~@fluentui/react/dist/sass/References.scss';
+
+.defects {
+  overflow: hidden;
+  padding: 1em;
+  color: "[theme:bodyText, default: #323130]";
+  color: var(--bodyText);
+  &.teams {
+    font-family: $ms-font-family-fallbacks;
+  }
+}
+
+.welcome {
+  text-align: center;
+}
+
+.welcomeImage {
+  width: 100%;
+  max-width: 420px;
+}
+
+.links {
+  a {
+    text-decoration: none;
+    color: "[theme:link, default:#03787c]";
+    color: var(--link); // note: CSS Custom Properties support is limited to modern browsers only
+
+    &:hover {
+      text-decoration: underline;
+      color: "[theme:linkHovered, default: #014446]";
+      color: var(--linkHovered); // note: CSS Custom Properties support is limited to modern browsers only
+    }
+  }
+}
+
+.reusableFixedOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.24);
+}
+
+.reusableFixedModal {
+  width: 80vw;
+  max-width: 80vw;
+  max-height: calc(100vh - 24px);
+  display: flex;
+  flex-direction: column;
+  background-color: "[theme:white, default: #ffffff]";
+  background-color: #ffffff;
+  border-radius: 2px;
+}
+
+.reusableFixedModalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 0;
+}
+
+.reusableFixedModalBody {
+  overflow-y: auto;
+  padding: 16px 24px 24px;
+  background-color: inherit;
+}
+
+@import '~@fluentui/react/dist/sass/References.scss';
+
+:global {  
+  #O365_NavHeader,.commandBarWrapper,#SuiteNavPlaceHolder{
+    display:none !important;
+  }
+  div[class^='headerRow-']{
+    display:none !important;
+  }
+  div[id='spLeftNav']{
+    display:none !important;
+  }
+  div[class^='spNav_']{
+    display:none !important;
+  }
+  div[class^='gradientBox_']{
+    display:none !important;
+  }
+  div[class^='parallaxContainer_']{
+    display:none !important;
+  }
+  div[class^='commentsWrapper_']{
+    display:none !important;
+  }
+  div[class^='scrollRegion_']{
+    overflow: visible !important;
+  }
+  body.defects-scroll-locked,
+  body.defects-scroll-locked div[class^='scrollRegion_']{
+    overflow: hidden !important;
+  }
+  div[data-sp-feature-tag='Comments']{
+    display:none !important;
+  }
+  div[data-automation-id='sp-appBar']{
+    display:none !important;
+  }
+  div[data-automation-id='spTopPlaceholder']{
+    display:none !important;
+  }
+  div[data-automation-id='spSiteHeader']{
+    display:none !important;
+  }
+  div[data-automation-id='spTopContentPlaceholder']{
+    display:none !important;
+  }
+  div[data-automation-id='spCommandBar']{
+    display:none !important;
+  }
+  div[data-automation-id='RecommendedItems']{
+    display:none !important;
+  }
+  div[data-automation-id='spDialogContainerDiv']{
+    display:none !important;
+  }
+  div[data-automation-id='sp-placeholder-bottom']{
+    display:none !important;
+  }
+  div[data-automation-id='SuiteNavWrapper']{
+    display:none !important;
+  }
+  div[data-automation-id='SiteHeaderOverlay']{
+    display:none !important;
+  }
+  div[data-automation-id='fullWidthImageLayout']{
+    display:none !important;
+  }
+
+  #workbenchPageContent {  
+    max-width: initial;  
+  }
+  #SuiteNavWrapper{
+    display:none !important;
+  }
+  .CanvasZone {  
+    max-width: none !important;
+  }
+  .k_e_50a7110f{
+    max-width: none !important;
+    width:inherit !important;
+  }
+  .a_e_50a7110f{
+    padding: 0px !important;
+    margin: 0px !important;
+  }
+  .a_f_50a7110f:not(.b_f_50a7110f) .p_f_50a7110f.q_f_50a7110f {
+    box-sizing: border-box;
+    max-width: none !important;
+    padding: 0 !important;
+    width: inherit!important;
+  }
+ 
+  .a_b_50a7110f:not(.b_b_50a7110f) .g_b_50a7110f{
+    display: flex;
+    max-width: 100%!important;
+    margin-top: 4%;
+    width:inherit!important;
+  }
+  .spAppAndPropertyPanelContainer .sp-appBar{
+    display:none!important;
+  }
+ 
+  div[data-automation-id="CanvasZone"] > div:first-child {
+    max-width: 100% !important;
+    padding:0px !important;
+    width:100% !important;
+  }
+  div[data-automation-id="CanvasZone"]{
+    padding-right: 0px !important;
+    margin-left: 0px !important;
+  }
+  .CanvasZone:not(.CanvasZone--fullWidth) .ControlZone {
+    padding: 0px !important;
+  }
+  .CanvasSection--read .ControlZone:last-of-type {
+      margin-bottom: 0px !important;
+  }
+  .CanvasSection--read .ControlZone {
+      margin-top: 0px !important;
+  }
+  .CanvasSection-col {
+      padding-left: 0px !important;
+      padding-right: 0px !important;
+  }
+  .webPartContainer{
+    display:none !important;
+  }
+  .qz_bx_k{
+    display:none !important;
+  }
+  
+   //for scrollbar
+   ::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+  }
+ 
+  ::-webkit-scrollbar-thumb {
+      background-color: #c2c2c2;
+      border-radius: 10px;
+      border: 1px solid #aeaeae;
+  }
+ 
+  ::-webkit-scrollbar-track {
+      background: #fff;
+  }
+  *{
+    font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
+  }
+  *,*:focus,*:hover{
+    outline:none !important;
+  }
+ 
+  .CanvasZone {
+    padding: 0px 0px!important;
+  }
+ 
+}
+
+.moMActionItem {
+  overflow: hidden;
+  padding: 1em;
+  color: "[theme:bodyText, default: #323130]";
+  color: var(--bodyText);
+  &.teams {
+    font-family: $ms-font-family-fallbacks;
+  }
+}
+
+.welcome {
+  text-align: center;
+}
+
+.welcomeImage {
+  width: 100%;
+  max-width: 420px;
+}
+
+.links {
+  a {
+    text-decoration: none;
+    color: "[theme:link, default:#03787c]";
+    color: var(--link); // note: CSS Custom Properties support is limited to modern browsers only
+
+    &:hover {
+      text-decoration: underline;
+      color: "[theme:linkHovered, default: #014446]";
+      color: var(--linkHovered); // note: CSS Custom Properties support is limited to modern browsers only
+    }
+  }
+}

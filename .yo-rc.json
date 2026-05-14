@@ -1,0 +1,18 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "22.19.0",
+    "sdksVersions": {},
+    "version": "1.21.1",
+    "libraryName": "graph-poc",
+    "libraryId": "9f91f190-50cd-4b5a-8005-cbdf849bc366",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "Graph_POC",
+    "solutionShortDescription": "Graph_POC description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}
