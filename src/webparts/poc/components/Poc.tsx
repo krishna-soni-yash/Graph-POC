@@ -125,6 +125,12 @@ export default class Poc extends React.Component<IPocProps, IPocState> {
         actualEndDate,
         workLog.PlannedDuration
       );
+      const meanScheduleVariation =
+        typeof metricItem.ScheduleVariation === 'number' ? metricItem.ScheduleVariation : undefined;
+      const squaredDeviationOfScheduleVariation =
+        scheduleVaration !== undefined && meanScheduleVariation !== undefined
+          ? Math.pow(scheduleVaration - meanScheduleVariation, 2)
+          : undefined;
 
       return {
         WorkItemNo: workLog.WorkItemNo ?? workLog.ID,
@@ -134,6 +140,9 @@ export default class Poc extends React.Component<IPocProps, IPocState> {
         ActualStartDate: actualStartDate,
         ActualEndDate: actualEndDate,
         ScheduleVaration: scheduleVaration,
+        SquaredDeviationOfScheduleVariation: squaredDeviationOfScheduleVariation,
+        Variance: metricItem.Variance,
+        SquareRootOfVariance: metricItem.SquareRootOfVariance,
         Goal: metricItem.Goal,
         USL: metricItem.USL,
         LSL: metricItem.LSL

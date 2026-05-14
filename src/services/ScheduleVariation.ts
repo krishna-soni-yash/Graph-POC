@@ -17,6 +17,10 @@ export interface IProjectMetricsItem {
 	LastPlannedEndDate?: string;
 	PlannedDuration?: number;
 	ScheduleVariation?: number;
+	SquaredDeviationOfScheduleVariation?: number;
+	SumOfSquaredDeviation?: number;
+	Variance?: number;
+	SquareRootOfVariance?: number;
 	[key: string]: unknown;
 }
 
@@ -190,10 +194,34 @@ export default class ScheduleVariationService {
 		metricItem.LastActualEndDate = lastActualEndDate.toISOString();
 		metricItem.LastPlannedEndDate = lastPlannedEndDate.toISOString();
 		metricItem.PlannedDuration = plannedDuration;
-		metricItem.ScheduleVariation =
-			scheduleVariations.length > 0
-				? scheduleVariations.reduce((total, value) => total + value, 0) / scheduleVariations.length
-				: undefined;
+		if (scheduleVariations.length > 0) {
+			const meanScheduleVariation =
+				scheduleVariations.reduce((total, value) => total + value, 0) / scheduleVariations.length;
+			const squaredDeviations = scheduleVariations.map((value) => {
+				const deviation = value - meanScheduleVariation;
+				return deviation * deviation;
+			});
+			const sumOfSquaredDeviation = squaredDeviations.reduce((total, value) => total + value, 0);
+			const squaredDeviationOfScheduleVariation = sumOfSquaredDeviation / scheduleVariations.length;
+			const varianceDenominator = meanScheduleVariation - 1;
+			const variance =
+				varianceDenominator !== 0
+					? Math.abs(sumOfSquaredDeviation / varianceDenominator)
+					: undefined;
+			const squareRootOfVariance = variance !== undefined ? Math.sqrt(variance) : undefined;
+
+			metricItem.ScheduleVariation = meanScheduleVariation;
+			metricItem.SquaredDeviationOfScheduleVariation = squaredDeviationOfScheduleVariation;
+			metricItem.SumOfSquaredDeviation = sumOfSquaredDeviation;
+			metricItem.Variance = variance;
+			metricItem.SquareRootOfVariance = squareRootOfVariance;
+		} else {
+			metricItem.ScheduleVariation = undefined;
+			metricItem.SquaredDeviationOfScheduleVariation = undefined;
+			metricItem.SumOfSquaredDeviation = undefined;
+			metricItem.Variance = undefined;
+			metricItem.SquareRootOfVariance = undefined;
+		}
 	}
 
 	private _getMinDate(dateValues: Array<string | undefined>): Date | undefined {

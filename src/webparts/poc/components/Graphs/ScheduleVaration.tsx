@@ -8,6 +8,9 @@ export interface IScheduleVariationRow {
 	ActualStartDate?: string;
 	ActualEndDate?: string;
 	ScheduleVaration?: number;
+	SquaredDeviationOfScheduleVariation?: number;
+	Variance?: number;
+	SquareRootOfVariance?: number;
 	Goal?: number | string;
 	USL?: number | string;
 	LSL?: number | string;
@@ -119,6 +122,9 @@ const ScheduleVariation: React.FC<IScheduleVariationProps> = ({
 							<th style={thStyle}>ActualStartDate</th>
 							<th style={thStyle}>ActualEndDate</th>
 							<th style={thStyle}>ScheduleVaration</th>
+							<th style={thStyle}>SquaredDeviationOfScheduleVariation</th>
+							<th style={thStyle}>Variance</th>
+							<th style={thStyle}>SquareRootOfVariance</th>
 							<th style={thStyle}>Goal</th>
 							<th style={thStyle}>USL</th>
 							<th style={thStyle}>LSL</th>
@@ -127,7 +133,7 @@ const ScheduleVariation: React.FC<IScheduleVariationProps> = ({
 					<tbody>
 						{rows.length === 0 ? (
 							<tr>
-								<td colSpan={10} style={emptyStyle}>
+								<td colSpan={13} style={emptyStyle}>
 									No rows available for Schedule Variation.
 								</td>
 							</tr>
@@ -141,6 +147,9 @@ const ScheduleVariation: React.FC<IScheduleVariationProps> = ({
 									<td style={tdStyle}>{formatDate(row.ActualStartDate)}</td>
 									<td style={tdStyle}>{formatDate(row.ActualEndDate)}</td>
 									<td style={tdStyle}>{formatNumber(row.ScheduleVaration)}</td>
+									<td style={tdStyle}>{formatNumber(row.SquaredDeviationOfScheduleVariation)}</td>
+									<td style={tdStyle}>{formatNumber(row.Variance)}</td>
+									<td style={tdStyle}>{formatNumber(row.SquareRootOfVariance)}</td>
 									<td style={tdStyle}><span style={mutedValueStyle}>{formatNumber(row.Goal)}</span></td>
 									<td style={tdStyle}><span style={mutedValueStyle}>{formatNumber(row.USL)}</span></td>
 									<td style={tdStyle}><span style={mutedValueStyle}>{formatNumber(row.LSL)}</span></td>
