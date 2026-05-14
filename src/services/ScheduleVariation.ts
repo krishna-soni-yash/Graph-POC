@@ -30,6 +30,7 @@ export interface IWorkLogManagementItem {
 	PlannedStartDate?: string;
 	PlannedEndDate?: string;
 	PlannedDuration?: number;
+	Modified?: string;
 	[key: string]: unknown;
 }
 
@@ -77,13 +78,10 @@ export default class ScheduleVariationService {
 			USL: this._getMetricField(rawMetricItem, 'USL'),
 			LSL: this._getMetricField(rawMetricItem, 'LSL')
 		};
-		const { previousMonthStartIso, currentMonthStartIso } = this._getPreviousMonthBoundaries();
 		const workLogItems = await this._sp.web.lists
 			.getByTitle(WORK_LOG_LIST_NAME)
-			.items.select('ID, WorkItemNo, PlannedStartDate, PlannedEndDate')
-			.filter(
-				`(Status eq 'Completed' or Status eq 'Closed') and ProjectType eq 'dev' and Modified ge datetime'${previousMonthStartIso}' and Modified lt datetime'${currentMonthStartIso}'`
-			)();
+			.items.select('ID, WorkItemNo, PlannedStartDate, PlannedEndDate', 'Modified')
+			.filter(`(Status eq 'Completed' or Status eq 'Closed') and ProjectType eq 'dev'`)();
 
 		metricItem.RelatedWorkLogs = (workLogItems as IWorkLogManagementItem[]).map((item) => ({
 			...item,
@@ -110,14 +108,14 @@ export default class ScheduleVariationService {
 		return metricItem;
 	}
 
-	private _getPreviousMonthBoundaries(): { previousMonthStartIso: string; currentMonthStartIso: string } {
+	private _getPreviousMonthBoundaries(): { previousMonthStartUtc: Date; currentMonthStartUtc: Date } {
 		const now = new Date();
 		const currentMonthStartUtc = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1, 0, 0, 0));
 		const previousMonthStartUtc = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 1, 1, 0, 0, 0));
 
 		return {
-			previousMonthStartIso: previousMonthStartUtc.toISOString(),
-			currentMonthStartIso: currentMonthStartUtc.toISOString()
+			previousMonthStartUtc,
+			currentMonthStartUtc
 		};
 	}
 
@@ -140,6 +138,7 @@ export default class ScheduleVariationService {
 	private _populateScheduleVariation(metricItem: IProjectMetricsItem): void {
 		const tasks = metricItem.RelatedTasks ?? [];
 		const workLogs = metricItem.RelatedWorkLogs ?? [];
+		const { previousMonthStartUtc, currentMonthStartUtc } = this._getPreviousMonthBoundaries();
 
 		const firstActualStartDate = this._getMinDate(tasks.map((item) => item.ActualStartDate));
 		const lastActualEndDate = this._getMaxDate(tasks.map((item) => item.ActualEndDate));
@@ -158,6 +157,19 @@ export default class ScheduleVariationService {
 
 		for (let i = 0; i < workLogs.length; i++) {
 			const workLog = workLogs[i];
+			if (!workLog.Modified) {
+				continue;
+			}
+
+			const modifiedDate = new Date(workLog.Modified);
+			if (isNaN(modifiedDate.getTime())) {
+				continue;
+			}
+
+			if (modifiedDate < previousMonthStartUtc || modifiedDate >= currentMonthStartUtc) {
+				continue;
+			}
+
 			const workLogId = Number(workLog.ID);
 			const workLogNo = workLog.WorkItemNo !== undefined ? Number(workLog.WorkItemNo) : undefined;
 			const matchingTasks = tasks.filter((task) => {
